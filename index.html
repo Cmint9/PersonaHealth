@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PersonaHealth - Your Personal Health Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <!-- For PWA support -->
+    <meta name="theme-color" content="#4CAF50">
+</head>
+<body>
+    <div id="app">
+        <!-- Login/Register Section (initial view) -->
+        <div id="auth-container" class="active">
+            <div class="auth-card">
+                <div class="branding">
+                    <img src="https://api.placeholder.com/150/150" alt="PersonaHealth Logo" class="logo">
+                    <h1>PersonaHealth</h1>
+                    <p>Your personal health companion</p>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="login">Login</button>
+                    <button class="tab-btn" data-tab="register">Register</button>
+                </div>
+                
+                <div id="login-form" class="auth-form active">
+                    <div class="input-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="your@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="********">
+                    </div>
+                    <button id="login-btn" class="primary-btn">Login</button>
+                    <a href="#" class="text-link">Forgot password?</a>
+                </div>
+                
+                <div id="register-form" class="auth-form">
+                    <div class="input-group">
+                        <label for="register-name">Full Name</label>
+                        <input type="text" id="register-name" placeholder="John Doe">
+                    </div>
+                    <div class="input-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" placeholder="your@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" placeholder="********">
+                    </div>
+                    <div class="input-group">
+                        <label for="health-conditions">Health Conditions (Optional)</label>
+                        <input type="text" id="health-conditions" placeholder="Diabetes, Hypertension, etc.">
+                    </div>
+                    <button id="register-btn" class="primary-btn">Create Account</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App (after login) -->
+        <div id="main-container">
+            <!-- Sidebar/Navigation -->
+            <div class="sidebar">
+                <div class="branding">
+                    <img src="https://api.placeholder.com/80/80" alt="PersonaHealth Logo" class="logo-small">
+                    <h2>PersonaHealth</h2>
+                </div>
+                
+                <nav>
+                    <a href="#dashboard" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#medications" class="nav-item">
+                        <i class="fas fa-pills"></i>
+                        <span>Medications</span>
+                    </a>
+                    <a href="#symptoms" class="nav-item">
+                        <i class="fas fa-notes-medical"></i>
+                        <span>Symptom Journal</span>
+                    </a>
+                    <a href="#appointments" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Appointments</span>
+                    </a>
+                    <a href="#settings" class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+                
+                <div class="user-info">
+                    <img src="https://api.placeholder.com/40/40" alt="User" class="user-avatar">
+                    <span id="user-name">John Doe</span>
+                    <button id="logout-btn" class="text-btn"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+            
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Dashboard View -->
+                <div id="dashboard-view" class="view active">
+                    <div class="header">
+                        <h1>Hello, <span id="greeting-name">John</span>!</h1>
+                        <p class="date">Saturday, March 29, 2025</p>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <div class="card health-companion-card">
+                            <div class="card-header">
+                                <h3>Your Health Companion</h3>
+                            </div>
+                            <div class="chat-container">
+                                <div id="chat-messages" class="chat-messages">
+                                    <div class="message bot">
+                                        <div class="message-content">
+                                            <p>Hi John! How are you feeling today?</p>
+                                        </div>
+                                        <span class="timestamp">9:30 AM</span>
+                                    </div>
+                                    <!-- Messages will be added here dynamically -->
+                                </div>
+                                <div class="chat-input">
+                                    <input type="text" id="user-message" placeholder="Type your health question...">
+                                    <button id="send-message"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card medication-reminder-card">
+                            <div class="card-header">
+                                <h3>Today's Medications</h3>
+                                <button class="text-btn add-btn" id="add-medication"><i class="fas fa-plus"></i> Add</button>
+                            </div>
+                            <div class="medications-list">
+                                <div class="medication-item">
+                                    <div class="medication-time">8:00 AM</div>
+                                    <div class="medication-info">
+                                        <span class="medication-name">Lisinopril 20mg</span>
+                                        <span class="medication-desc">1 tablet, with food</span>
+                                    </div>
+                                    <div class="medication-status completed">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div class="medication-item">
+                                    <div class="medication-time">1:00 PM</div>
+                                    <div class="medication-info">
+                                        <span class="medication-name">Metformin 500mg</span>
+                                        <span class="medication-desc">1 tablet, with meal</span>
+                                    </div>
+                                    <div class="medication-status">
+                                        <button class="take-btn">Take Now</button>
+                                    </div>
+                                </div>
+                                <div class="medication-item">
+                                    <div class="medication-time">8:00 PM</div>
+                                    <div class="medication-info">
+                                        <span class="medication-name">Atorvastatin 10mg</span>
+                                        <span class="medication-desc">1 tablet, before bed</span>
+                                    </div>
+                                    <div class="medication-status">
+                                        <i class="far fa-clock"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card symptom-card">
+                            <div class="card-header">
+                                <h3>Symptom Tracking</h3>
+                            </div>
+                            <div class="symptom-content">
+                                <p>How are you feeling today?</p>
+                                <div class="symptom-options">
+                                    <button class="symptom-btn" data-feeling="great">
+                                        <i class="fas fa-grin"></i>
+                                        <span>Great</span>
+                                    </button>
+                                    <button class="symptom-btn" data-feeling="good">
+                                        <i class="fas fa-smile"></i>
+                                        <span>Good</span>
+                                    </button>
+                                    <button class="symptom-btn" data-feeling="okay">
+                                        <i class="fas fa-meh"></i>
+                                        <span>Okay</span>
+                                    </button>
+                                    <button class="symptom-btn" data-feeling="poor">
+                                        <i class="fas fa-frown"></i>
+                                        <span>Poor</span>
+                                    </button>
+                                    <button class="symptom-btn" data-feeling="bad">
+                                        <i class="fas fa-angry"></i>
+                                        <span>Bad</span>
+                                    </button>
+                                </div>
+                                <button id="log-symptoms" class="primary-btn">Record Symptoms</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card appointment-card">
+                            <div class="card-header">
+                                <h3>Upcoming Appointments</h3>
+                                <button class="text-btn add-btn" id="add-appointment"><i class="fas fa-plus"></i> Add</button>
+                            </div>
+                            <div class="appointment-list">
+                                <div class="appointment-item">
+                                    <div class="appointment-date">
+                                        <span class="month">APR</span>
+                                        <span class="day">10</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <span class="appointment-title">Dr. Sarah Johnson</span>
+                                        <span class="appointment-desc">Endocrinology, Annual Checkup</span>
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="text-btn prepare-btn" data-appointment="1">
+                                            <i class="fas fa-clipboard-list"></i> Prepare
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="appointment-item">
+                                    <div class="appointment-date">
+                                        <span class="month">MAY</span>
+                                        <span class="day">15</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <span class="appointment-title">Dr. Michael Chen</span>
+                                        <span class="appointment-desc">Cardiology Follow-up</span>
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="text-btn prepare-btn" data-appointment="2">
+                                            <i class="fas fa-clipboard-list"></i> Prepare
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Medications View -->
+                <div id="medications-view" class="view">
+                    <div class="header">
+                        <h1>Medication Management</h1>
+                    </div>
+                    
+                    <div class="actions-bar">
+                        <button id="add-med-btn" class="primary-btn"><i class="fas fa-plus"></i> Add Medication</button>
+                        <div class="search-bar">
+                            <input type="text" placeholder="Search medications...">
+                            <button><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="medications-grid">
+                        <!-- Medication cards will be listed here -->
+                        <div class="medication-card">
+                            <div class="medication-header">
+                                <h3>Lisinopril 20mg</h3>
+                                <span class="badge">Active</span>
+                            </div>
+                            <div class="medication-details">
+                                <p><strong>Dosage:</strong> 1 tablet daily</p>
+                                <p><strong>Time:</strong> 8:00 AM, with food</p>
+                                <p><strong>Purpose:</strong> Blood pressure management</p>
+                            </div>
+                            <div class="medication-fda">
+                                <h4>FDA Information</h4>
+                                <p>ACE inhibitor that helps lower blood pressure and improve heart function.</p>
+                                <div class="expandable">
+                                    <span class="read-more">Read more</span>
+                                    <div class="expanded-content">
+                                        <p>Common side effects may include dry cough, dizziness, and headache. Contact your doctor if you experience swelling of face/lips/tongue.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="medication-actions">
+                                <button class="secondary-btn edit-med-btn"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="secondary-btn view-history-btn"><i class="fas fa-history"></i> History</button>
+                            </div>
+                        </div>
+                        
+                        <div class="medication-card">
+                            <div class="medication-header">
+                                <h3>Metformin 500mg</h3>
+                                <span class="badge">Active</span>
+                            </div>
+                            <div class="medication-details">
+                                <p><strong>Dosage:</strong> 1 tablet twice daily</p>
+                                <p><strong>Time:</strong> 8:00 AM & 1:00 PM, with meals</p>
+                                <p><strong>Purpose:</strong> Diabetes management</p>
+                            </div>
+                            <div class="medication-fda">
+                                <h4>FDA Information</h4>
+                                <p>Oral diabetes medicine that helps control blood sugar levels.</p>
+                                <div class="expandable">
+                                    <span class="read-more">Read more</span>
+                                    <div class="expanded-content">
+                                        <p>Common side effects may include nausea, stomach upset, and diarrhea. Take with food to minimize these effects.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="medication-actions">
+                                <button class="secondary-btn edit-med-btn"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="secondary-btn view-history-btn"><i class="fas fa-history"></i> History</button>
+                            </div>
+                        </div>
+                        
+                        <div class="medication-card">
+                            <div class="medication-header">
+                                <h3>Atorvastatin 10mg</h3>
+                                <span class="badge">Active</span>
+                            </div>
+                            <div class="medication-details">
+                                <p><strong>Dosage:</strong> 1 tablet daily</p>
+                                <p><strong>Time:</strong> 8:00 PM, before bed</p>
+                                <p><strong>Purpose:</strong> Cholesterol management</p>
+                            </div>
+                            <div class="medication-fda">
+                                <h4>FDA Information</h4>
+                                <p>Statin medication that lowers "bad" cholesterol and triglycerides in the blood.</p>
+                                <div class="expandable">
+                                    <span class="read-more">Read more</span>
+                                    <div class="expanded-content">
+                                        <p>May cause muscle pain or weakness. Report unexplained muscle pain, tenderness, or weakness to your doctor promptly.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="medication-actions">
+                                <button class="secondary-btn edit-med-btn"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="secondary-btn view-history-btn"><i class="fas fa-history"></i> History</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Symptoms View -->
+                <div id="symptoms-view" class="view">
+                    <div class="header">
+                        <h1>Symptom Journal</h1>
+                    </div>
+                    
+                    <div class="actions-bar">
+                        <button id="log-new-symptom" class="primary-btn"><i class="fas fa-plus"></i> Log New Symptoms</button>
+                        <div class="filter-options">
+                            <select id="symptom-filter">
+                                <option value="all">All Symptoms</option>
+                                <option value="headache">Headache</option>
+                                <option value="fatigue">Fatigue</option>
+                                <option value="pain">Pain</option>
+                                <option value="nausea">Nausea</option>
+                            </select>
+                            <select id="time-filter">
+                                <option value="week">Past Week</option>
+                                <option value="month">Past Month</option>
+                                <option value="3months">Past 3 Months</option>
+                                <option value="all">All Time</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="symptoms-container">
+                        <div class="symptoms-chart">
+                            <!-- Placeholder for a chart -->
+                            <img src="https://api.placeholder.com/800/300" alt="Symptom Trends Chart" class="chart-placeholder">
+                        </div>
+                        
+                        <div class="symptoms-list">
+                            <div class="symptom-entry">
+                                <div class="symptom-date">
+                                    <span class="month">MAR</span>
+                                    <span class="day">28</span>
+                                </div>
+                                <div class="symptom-details">
+                                    <h3>Headache, Mild Nausea</h3>
+                                    <p>Started after lunch, lasted about 2 hours. Took acetaminophen which helped with the headache.</p>
+                                    <div class="symptom-tags">
+                                        <span class="tag">Headache</span>
+                                        <span class="tag">Nausea</span>
+                                    </div>
+                                </div>
+                                <div class="symptom-intensity">
+                                    <div class="intensity-indicator medium"></div>
+                                    <span>Medium</span>
+                                </div>
+                            </div>
+                            
+                            <div class="symptom-entry">
+                                <div class="symptom-date">
+                                    <span class="month">MAR</span>
+                                    <span class="day">25</span>
+                                </div>
+                                <div class="symptom-details">
+                                    <h3>Fatigue, Dizziness</h3>
+                                    <p>Felt tired all day, especially after walking up stairs. Also experienced some dizziness when standing up quickly.</p>
+                                    <div class="symptom-tags">
+                                        <span class="tag">Fatigue</span>
+                                        <span class="tag">Dizziness</span>
+                                    </div>
+                                </div>
+                                <div class="symptom-intensity">
+                                    <div class="intensity-indicator high"></div>
+                                    <span>High</span>
+                                </div>
+                            </div>
+                            
+                            <div class="symptom-entry">
+                                <div class="symptom-date">
+                                    <span class="month">MAR</span>
+                                    <span class="day">22</span>
+                                </div>
+                                <div class="symptom-details">
+                                    <h3>Joint Pain</h3>
+                                    <p>Experienced pain in right knee after walking for about 30 minutes. Subsided with rest and ice pack.</p>
+                                    <div class="symptom-tags">
+                                        <span class="tag">Pain</span>
+                                        <span class="tag">Joint</span>
+                                    </div>
+                                </div>
+                                <div class="symptom-intensity">
+                                    <div class="intensity-indicator low"></div>
+                                    <span>Low</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="patterns-section">
+                            <h3>Potential Patterns Detected</h3>
+                            <div class="pattern-card">
+                                <div class="pattern-icon"><i class="fas fa-chart-line"></i></div>
+                                <div class="pattern-details">
+                                    <h4>Headaches and Medication Timing</h4>
+                                    <p>Your headaches often occur 4-6 hours after taking Metformin. Consider discussing this with your healthcare provider.</p>
+                                </div>
+                            </div>
+                            <div class="pattern-card">
+                                <div class="pattern-icon"><i class="fas fa-chart-line"></i></div>
+                                <div class="pattern-details">
+                                    <h4>Weather and Joint Pain</h4>
+                                    <p>Your joint pain entries correlate with rainy or high-humidity days. This could indicate weather sensitivity.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Appointments View -->
+                <div id="appointments-view" class="view">
+                    <div class="header">
+                        <h1>Care Coordination</h1>
+                    </div>
+                    
+                    <div class="appointments-container">
+                        <div class="appointments-list-section">
+                            <div class="section-header">
+                                <h2>Upcoming Appointments</h2>
+                                <button class="primary-btn"><i class="fas fa-plus"></i> Add New</button>
+                            </div>
+                            
+                            <div class="appointments-list">
+                                <div class="appointment-item expanded">
+                                    <div class="appointment-date">
+                                        <span class="month">APR</span>
+                                        <span class="day">10</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <span class="appointment-title">Dr. Sarah Johnson</span>
+                                        <span class="appointment-desc">Endocrinology, Annual Checkup</span>
+                                        <div class="appointment-details">
+                                            <p><strong>Time:</strong> 2:30 PM</p>
+                                            <p><strong>Location:</strong> Memorial Medical Center, Suite 302</p>
+                                            <p><strong>Reason:</strong> Annual diabetes management review</p>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="secondary-btn"><i class="fas fa-edit"></i> Edit</button>
+                                        <button class="secondary-btn"><i class="fas fa-clipboard-list"></i> Prepare</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="appointment-item">
+                                    <div class="appointment-date">
+                                        <span class="month">MAY</span>
+                                        <span class="day">15</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <span class="appointment-title">Dr. Michael Chen</span>
+                                        <span class="appointment-desc">Cardiology Follow-up</span>
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="text-btn expand-btn"><i class="fas fa-chevron-down"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-preparation">
+                            <div class="section-header">
+                                <h2>Appointment Preparation</h2>
+                                <span class="prep-for">For: Dr. Sarah Johnson, April 10</span>
+                            </div>
+                            
+                            <div class="preparation-content">
+                                <div class="preparation-section">
+                                    <h3>Topics to Discuss</h3>
+                                    <div class="topics-list">
+                                        <div class="topic-item">
+                                            <input type="checkbox" id="topic1">
+                                            <label for="topic1">Blood sugar fluctuations in the evening</label>
+                                        </div>
+                                        <div class="topic-item">
+                                            <input type="checkbox" id="topic2">
+                                            <label for="topic2">Possible Metformin side effects (occasional nausea)</label>
+                                        </div>
+                                        <div class="topic-item">
+                                            <input type="checkbox" id="topic3">
+                                            <label for="topic3">Recent weight loss progress</label>
+                                        </div>
+                                        <div class="topic-item add-topic">
+                                            <input type="text" placeholder="Add another topic...">
+                                            <button><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="preparation-section">
+                                    <h3>Recent Symptoms Summary</h3>
+                                    <div class="summary-content">
+                                        <p>Based on your symptom journal, here are the key patterns to discuss:</p>
+                                        <ul>
+                                            <li>Experienced fatigue (medium to high intensity) on 5 occasions in the past month</li>
+                                            <li>Occasional mild headaches (3 instances), typically in the afternoon</li>
+                                            <li>One instance of dizziness when standing up quickly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="preparation-section">
+                                    <h3>Medication Adherence</h3>
+                                    <div class="adherence-summary">
+                                        <div class="medication-adherence">
+                                            <span class="medication-name">Metformin</span>
+                                            <div class="adherence-bar">
+                                                <div class="adherence-fill" style="width: 92%;"></div>
+                                            </div>
+                                            <span class="adherence-percent">92%</span>
+                                        </div>
+                                        <div class="medication-adherence">
+                                            <span class="medication-name">Lisinopril</span>
+                                            <div class="adherence-bar">
+                                                <div class="adherence-fill" style="width: 98%;"></div>
+                                            </div>
+                                            <span class="adherence-percent">98%</span>
+                                        </div>
+                                        <div class="medication-adherence">
+                                            <span class="medication-name">Atorvastatin</span>
+                                            <div class="adherence-bar">
+                                                <div class="adherence-fill" style="width: 88%;"></div>
+                                            </div>
+                                            <span class="adherence-percent">88%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="preparation-section">
+                                    <h3>Questions for Doctor</h3>
+                                    <div class="questions-list">
+                                        <div class="question-item">
+                                            <input type="checkbox" id="question1">
+                                            <label for="question1">Is it safe to adjust Metformin timing to help with the nausea?</label>
+                                        </div>
+                                        <div class="question-item">
+                                            <input type="checkbox" id="question2">
+                                            <label for="question2">Should I be concerned about the occasional dizziness?</label>
+                                        </div>
+                                        <div class="question-item">
+                                            <input type="checkbox" id="question3">
+                                            <label for="question3">Are there any new treatments for type 2 diabetes I should consider?</label>
+                                        </div>
+                                        <div class="question-item add-question">
+                                            <input type="text" placeholder="Add another question...">
+                                            <button><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="action-buttons">
+                                    <button class="secondary-btn"><i class="fas fa-print"></i> Print Summary</button>
+                                    <button class="primary-btn"><i class="fas fa-save"></i> Save Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modals -->
+        <div id="add-medication-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add New Medication</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <label for="med-name">Medication Name</label>
+                        <input type="text" id="med-name" placeholder="Enter medication name">
+                        <button id="lookup-med" class="text-btn">Look up in FDA database</button>
+                    </div>
+                    
+                    <div id="fda-results" class="fda-results hidden">
+                        <h3>FDA Information</h3>
+                        <div class="loading-spinner"></div>
+                        <div class="fda-content"></div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="med-dosage">Dosage</label>
+                        <input type="text" id="med-dosage" placeholder="ex: 20mg">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="med-schedule">Schedule</label>
+                        <select id="med-schedule">
+                            <option value="daily">Daily</option>
+                            <option value="twice-daily">Twice Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="as-needed">As Needed</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="med-time">Time</label>
+                        <input type="time" id="med-time">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="med-notes">Special Instructions</label>
+                        <textarea id="med-notes" placeholder="Special instructions (e.g., take with food)"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="secondary-btn cancel-modal">Cancel</button>
+                    <button class="primary-btn save-medication">Save Medication</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="log-symptom-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Log New Symptoms</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <label>How are you feeling?</label>
+                        <div class="feeling-options">
+                            <label class="feeling-option">
+                                <input type="radio" name="feeling" value="great">
+                                <span class="feeling-icon"><i class="fas fa-grin"></i></span>
+                                <span class="feeling-text">Great</span>
+                            </label>
+                            <label class="feeling-option">
+                                <input type="radio" name="feeling" value="good">
+                                <span class="feeling-icon"><i class="fas fa-smile"></i></span>
+                                <span class="feeling-text">Good</span>
+                            </label>
+                            <label class="feeling-option">
+                                <input type="radio" name="feeling" value="okay">
+                                <span class="feeling-icon"><i class="fas fa-meh"></i></span>
+                                <span class="feeling-text">Okay</span>
+                            </label>
+                            <label class="feeling-option">
+                                <input type="radio" name="feeling" value="poor">
+                                <span class="feeling-icon"><i class="fas fa-frown"></i></span>
+                                <span class="feeling-text">Poor</span>
+                            </label>
+                            <label class="feeling-option">
+                                <input type="radio" name="feeling" value="bad">
+                                <span class="feeling-icon"><i class="fas fa-angry"></i></span>
+                                <span class="feeling-text">Bad</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="symptom-types">What symptoms are you experiencing?</label>
+                        <div class="symptom-checkboxes">
+                            <label class="symptom-checkbox">
+                                <input type="checkbox" name="symptom-type" value="headache">
+                                <span>Headache</span>
+                            </label>
+                            <label class="symptom-checkbox">
+                                <input type="checkbox" name="symptom-type" value="nausea">
+                                <span>Nausea</span>
+                            </label>
+                            <label class="symptom-checkbox">
+                                <input type="checkbox" name="symptom-type" value="fatigue">
+                                <span>Fatigue</span>
+                            </label>
+                            <label class="symptom-checkbox">
+                                <input type="checkbox" name="symptom-type" value="pain">
+                                <span>Pain</span>
+                            </label>
+                            <label class="symptom-checkbox">
+                                <input type="checkbox" name="symptom-type" value="dizziness">
+                                <span>Dizziness</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="symptom-intensity">Intensity</label>
+                        <div class="intensity-slider">
+                            <input type="range" id="symptom-intensity" min="1" max="10" value="5">
+                            <div class="intensity-labels">
+                                <span>Mild</span>
+                                <span>Moderate</span>
+                                <span>Severe</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="symptom-notes">Description</label>
+                        <textarea id="symptom-notes" placeholder="Describe your symptoms in detail..."></textarea>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="symptom-factors">Possible triggers or factors</label>
+                        <input type="text" id="symptom-factors" placeholder="e.g., stress, certain foods, activities">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="secondary-btn cancel-modal">Cancel</button>
+                    <button class="primary-btn save-symptoms">Save Symptoms</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
